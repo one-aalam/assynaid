@@ -11,9 +11,12 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
-    "package": "npm run build && cd dist && zip -r ../assynaid.zip .",
-    "clean": "rimraf dist node_modules",
-    "start": "npm run dev"
+    "package": "VERSION=$npm_package_version node scripts/package.js",
+    "package:release": "npm run lint && npm run check && npm run package",
+    "clean": "rimraf dist node_modules releases",
+    "start": "npm run dev",
+    "verify-build": "node scripts/verify-build.js",
+    "prepare:release": "node scripts/prepare-release.js"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
@@ -22,6 +25,7 @@
     "@types/node": "^20.11.5",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
+    "archiver": "^6.0.1",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
