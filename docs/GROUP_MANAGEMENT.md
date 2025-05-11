@@ -88,16 +88,20 @@ Each group contains:
 ## Troubleshooting Group Issues
 
 **Issue**: Can't remove assignee from group
+
 - Make sure you hover directly over the group badge to reveal the remove button
 
 **Issue**: Group not showing in dropdown
+
 - Try refreshing the extension by clicking "Scan Now"
 
 **Issue**: Group has incorrect members
+
 - Review the group members and remove/add as needed
 - Consider recreating the group if many changes are needed
 
 **Issue**: Group color not displaying correctly
+
 - Try choosing a different color or recreating the group
 
 Remember that all group data is stored locally in your browser. If you clear your browser data or use a different browser, you'll need to recreate your groups.

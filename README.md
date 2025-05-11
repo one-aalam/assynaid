@@ -35,12 +35,14 @@ A beautiful Chrome extension that scans and manages Jira board assignees with a 
 ### Installation
 
 1. Clone the repository
+
    ```bash
    git clone https://github.com/yourusername/assynaid.git
    cd assynaid
    ```
 
 2. Install dependencies
+
    ```bash
    npm install
    # or
@@ -48,6 +50,7 @@ A beautiful Chrome extension that scans and manages Jira board assignees with a 
    ```
 
 3. Start development server
+
    ```bash
    npm run dev
    # or
@@ -55,6 +58,7 @@ A beautiful Chrome extension that scans and manages Jira board assignees with a 
    ```
 
 4. Build the extension
+
    ```bash
    npm run build
    # or
