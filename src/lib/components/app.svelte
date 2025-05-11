@@ -124,7 +124,7 @@
 </script>
 
 <div
-  class={cn('flex h-[600px] w-[400px] flex-col', $uiState.isAnimatingOut && 'container closing')}
+  class={cn('flex h-[600px] w-[400px] flex-col', $uiState.isAnimatingOut && 'closing container')}
 >
   <Header scanning={isScanning} on:scan={scanAssignees} on:openSettings={handleOpenSettings} />
 

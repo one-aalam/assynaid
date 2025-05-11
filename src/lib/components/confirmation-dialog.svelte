@@ -67,7 +67,7 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-end gap-2 border-t p-3 bg-muted/20">
+      <div class="flex items-center justify-end gap-2 border-t bg-muted/20 p-3">
         <Button variant="outline" type="button" on:click={cancel}>
           {cancelText}
         </Button>

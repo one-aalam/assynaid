@@ -61,20 +61,20 @@
     </select>
   </div>
 
-  <Button variant="outline" size="sm" class="px-2 py-1 h-auto" on:click={handleCreateGroup}>
+  <Button variant="outline" size="sm" class="h-auto px-2 py-1" on:click={handleCreateGroup}>
     <PlusCircle class="mr-1 h-3.5 w-3.5" />
     New Group
   </Button>
 </div>
 
 {#if $uiState.currentView === 'group' && $assigneeStore.groups.length > 0}
-  <div class="flex flex-wrap gap-1 p-2 border-b bg-muted/20">
+  <div class="flex flex-wrap gap-1 border-b bg-muted/20 p-2">
     <Button
       variant={$assigneeStore.currentGroupId === null || $assigneeStore.currentGroupId === 'all'
         ? 'secondary'
         : 'outline'}
       size="sm"
-      class="text-xs h-auto py-1"
+      class="h-auto py-1 text-xs"
       on:click={() => assigneeStore.setCurrentGroup('all')}
     >
       All
@@ -83,14 +83,14 @@
     {#each $assigneeStore.groups as group (group.id)}
       <div class="flex items-center">
         <button
-          class="flex items-center group"
+          class="group flex items-center"
           on:click={() => assigneeStore.setCurrentGroup(group.id)}
         >
           <GroupBadge {group} showCount={true} size="sm" />
         </button>
 
         <button
-          class="ml-1 p-1 rounded-full opacity-60 hover:opacity-100 hover:bg-muted"
+          class="ml-1 rounded-full p-1 opacity-60 hover:bg-muted hover:opacity-100"
           title="Delete group"
           on:click={() => openDeleteConfirmation(group.id, group.name)}
         >

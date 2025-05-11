@@ -95,7 +95,7 @@
     on:click={handleBackdropClick}
   >
     <div
-      class="w-full max-w-md overflow-hidden rounded-md bg-background shadow-lg animate-slide-in"
+      class="w-full max-w-md animate-slide-in overflow-hidden rounded-md bg-background shadow-lg"
       on:click|stopPropagation
     >
       <div class="flex items-center justify-between border-b p-4">
@@ -105,7 +105,7 @@
         </button>
       </div>
 
-      <form on:submit|preventDefault={handleSubmit} class="p-4 space-y-4">
+      <form on:submit|preventDefault={handleSubmit} class="space-y-4 p-4">
         <div class="space-y-2">
           <label for="name" class="text-sm font-medium">
             Group Name <span class="text-destructive">*</span>
@@ -119,7 +119,7 @@
             id="description"
             bind:value={description}
             placeholder="Enter description (optional)"
-            class="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            class="min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           ></textarea>
         </div>
 
@@ -133,7 +133,7 @@
               class="h-10 w-16 cursor-pointer rounded border p-0"
             />
             <div
-              class="flex-1 rounded-md p-2 text-center text-white font-medium"
+              class="flex-1 rounded-md p-2 text-center font-medium text-white"
               style="background-color: {color}"
             >
               {name || 'Preview'}
@@ -144,7 +144,7 @@
         <div class="space-y-2">
           <label class="text-sm font-medium">
             Assignees <span class="text-destructive">*</span>
-            <span class="text-xs text-muted-foreground ml-1">
+            <span class="ml-1 text-xs text-muted-foreground">
               ({selectedAssigneeIds.length} selected)
             </span>
           </label>
@@ -157,7 +157,7 @@
             {:else}
               {#each $assigneeStore.assignees as assignee (assignee.id)}
                 <div
-                  class="flex items-center gap-2 rounded-sm px-2 py-1.5 hover:bg-muted cursor-pointer"
+                  class="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 hover:bg-muted"
                   on:click={() => toggleAssignee(assignee.id)}
                   on:keydown={(e) => e.key === 'Enter' && toggleAssignee(assignee.id)}
                 >
@@ -177,7 +177,7 @@
                     />
                   {:else}
                     <div
-                      class="flex h-6 w-6 items-center justify-center rounded-full bg-jira-primary text-white text-xs"
+                      class="flex h-6 w-6 items-center justify-center rounded-full bg-jira-primary text-xs text-white"
                     >
                       {assignee.name.substring(0, 2).toUpperCase()}
                     </div>

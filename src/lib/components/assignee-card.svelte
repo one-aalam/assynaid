@@ -95,7 +95,7 @@
         />
         <div
           class={cn(
-            'hidden items-center justify-center rounded-full bg-jira-primary text-white font-semibold',
+            'hidden items-center justify-center rounded-full bg-jira-primary font-semibold text-white',
             $uiState.currentView === 'list' ? 'h-10 w-10 text-xs' : 'h-14 w-14 text-sm'
           )}
         >
@@ -104,7 +104,7 @@
       {:else}
         <div
           class={cn(
-            'flex items-center justify-center rounded-full bg-jira-primary text-white font-semibold',
+            'flex items-center justify-center rounded-full bg-jira-primary font-semibold text-white',
             $uiState.currentView === 'list' ? 'h-10 w-10 text-xs' : 'h-14 w-14 text-sm'
           )}
         >
@@ -125,19 +125,19 @@
     <div class="min-w-0 flex-1">
       <p class="truncate font-medium">{assignee.name}</p>
       {#if assignee.role}
-        <p class="text-xs text-muted-foreground truncate">{assignee.role}</p>
+        <p class="truncate text-xs text-muted-foreground">{assignee.role}</p>
       {/if}
     </div>
 
     {#if showGroups && groups.length > 0 && ($uiState.currentView === 'list' || $uiState.currentView === 'group')}
       <div class="flex flex-wrap gap-1">
         {#each groups as group (group.id)}
-          <div class="flex items-center group">
+          <div class="group flex items-center">
             <GroupBadge {group} />
 
             <!-- Remove from group button -->
             <button
-              class="ml-0.5 -mr-0.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-muted/80 transition-opacity"
+              class="-mr-0.5 ml-0.5 flex items-center justify-center rounded-full opacity-0 transition-opacity hover:bg-muted/80 group-hover:opacity-100"
               title={`Remove from ${group.name}`}
               on:click={(e) => removeFromGroup(group.id, e)}
             >

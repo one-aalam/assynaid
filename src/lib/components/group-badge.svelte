@@ -15,7 +15,7 @@
   style="background-color: {group.color}"
   title={group.description || group.name}
 >
-  <span class="truncate max-w-24">{group.name}</span>
+  <span class="max-w-24 truncate">{group.name}</span>
   {#if showCount}
     <span
       class="ml-1 flex h-4 w-4 items-center justify-center rounded-full bg-white/30 text-[10px]"

@@ -55,7 +55,7 @@
     on:click={handleBackdropClick}
   >
     <div
-      class="w-full max-w-md overflow-hidden rounded-md bg-background shadow-lg animate-slide-in"
+      class="w-full max-w-md animate-slide-in overflow-hidden rounded-md bg-background shadow-lg"
       on:click|stopPropagation
     >
       <div class="flex items-center justify-between border-b p-4">
@@ -65,7 +65,7 @@
         </button>
       </div>
 
-      <div class="p-4 space-y-4">
+      <div class="space-y-4 p-4">
         <div class="space-y-4">
           <h3 class="text-base font-medium">Appearance</h3>
 
@@ -104,7 +104,7 @@
           </div>
         </div>
 
-        <div class="pt-4 border-t space-y-4">
+        <div class="space-y-4 border-t pt-4">
           <h3 class="text-base font-medium">Data Management</h3>
 
           <div class="flex items-center justify-between rounded-md border p-3">
@@ -132,11 +132,11 @@
           {/if}
         </div>
 
-        <div class="pt-4 border-t">
+        <div class="border-t pt-4">
           <p class="text-xs text-muted-foreground">
             Assynaid v1.0.0 - A modern Jira assignee scanner
           </p>
-          <p class="text-xs text-muted-foreground mt-1">
+          <p class="mt-1 text-xs text-muted-foreground">
             <a
               href="https://github.com/yourusername/assynaid"
               target="_blank"
@@ -148,7 +148,7 @@
         </div>
       </div>
 
-      <div class="border-t p-4 flex justify-end">
+      <div class="flex justify-end border-t p-4">
         <Button variant="jira" on:click={close}>Close</Button>
       </div>
     </div>

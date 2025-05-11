@@ -21,7 +21,7 @@
   }
 </script>
 
-<header class="flex items-center justify-between bg-card px-4 py-3 border-b">
+<header class="flex items-center justify-between border-b bg-card px-4 py-3">
   <div class="flex items-center gap-2">
     <img src="../assets/images/logo.svg" alt="Assynaid Logo" class="h-8 w-8" />
     <h1 class="text-xl font-semibold text-jira-primary">Assynaid</h1>
