@@ -7,7 +7,7 @@
   export let showCount = false;
 </script>
 
-<div 
+<div
   class={cn(
     'inline-flex items-center rounded-full px-2 font-medium text-white',
     size === 'sm' ? 'py-0.5 text-xs' : 'py-1 text-sm'
@@ -17,7 +17,9 @@
 >
   <span class="truncate max-w-24">{group.name}</span>
   {#if showCount}
-    <span class="ml-1 flex h-4 w-4 items-center justify-center rounded-full bg-white/30 text-[10px]">
+    <span
+      class="ml-1 flex h-4 w-4 items-center justify-center rounded-full bg-white/30 text-[10px]"
+    >
       {group.assigneeIds.length}
     </span>
   {/if}

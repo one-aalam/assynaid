@@ -62,7 +62,7 @@ const createAssigneeStore = () => {
         color: color || `hsl(${Math.random() * 360}, 70%, 60%)`,
         createdAt: Date.now()
       };
-      
+
       update((state) => ({
         ...state,
         groups: [...state.groups, group],
@@ -75,13 +75,13 @@ const createAssigneeStore = () => {
       update((state) => {
         const groupIndex = state.groups.findIndex((g) => g.id === groupId);
         if (groupIndex === -1) return state;
-        
+
         const updatedGroups = [...state.groups];
         updatedGroups[groupIndex] = {
           ...updatedGroups[groupIndex],
           ...updates
         };
-        
+
         return { ...state, groups: updatedGroups };
       });
       await saveToStorage(get({ subscribe }));
@@ -102,16 +102,16 @@ const createAssigneeStore = () => {
       update((state) => {
         const groupIndex = state.groups.findIndex((g) => g.id === groupId);
         if (groupIndex === -1) return state;
-        
+
         const group = state.groups[groupIndex];
         if (group.assigneeIds.includes(assigneeId)) return state;
-        
+
         const updatedGroups = [...state.groups];
         updatedGroups[groupIndex] = {
           ...group,
           assigneeIds: [...group.assigneeIds, assigneeId]
         };
-        
+
         return { ...state, groups: updatedGroups };
       });
       await saveToStorage(get({ subscribe }));
@@ -120,14 +120,14 @@ const createAssigneeStore = () => {
       update((state) => {
         const groupIndex = state.groups.findIndex((g) => g.id === groupId);
         if (groupIndex === -1) return state;
-        
+
         const group = state.groups[groupIndex];
         const updatedGroups = [...state.groups];
         updatedGroups[groupIndex] = {
           ...group,
           assigneeIds: group.assigneeIds.filter((id) => id !== assigneeId)
         };
-        
+
         return { ...state, groups: updatedGroups };
       });
       await saveToStorage(get({ subscribe }));
@@ -150,10 +150,10 @@ export const filteredAssignees = derived(assigneeStore, ($store) => {
   if (!$store.currentGroupId || $store.currentGroupId === 'all') {
     return $store.assignees;
   }
-  
+
   const group = $store.groups.find((g) => g.id === $store.currentGroupId);
   if (!group) return $store.assignees;
-  
+
   return $store.assignees.filter((a) => group.assigneeIds.includes(a.id));
 });
 

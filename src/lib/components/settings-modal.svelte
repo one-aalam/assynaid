@@ -35,7 +35,11 @@
   }
 
   async function clearAllData() {
-    if (confirm('Are you sure you want to clear all data? This will remove all scanned assignees, selections, and groups.')) {
+    if (
+      confirm(
+        'Are you sure you want to clear all data? This will remove all scanned assignees, selections, and groups.'
+      )
+    ) {
       await assigneeStore.reset();
       toast.success('All data has been cleared');
     }
@@ -45,30 +49,26 @@
 <svelte:window on:keydown={handleKeydown} />
 
 {#if show}
-  <div 
+  <div
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
     transition:fade={{ duration: 200 }}
     on:click={handleBackdropClick}
   >
-    <div 
+    <div
       class="w-full max-w-md overflow-hidden rounded-md bg-background shadow-lg animate-slide-in"
       on:click|stopPropagation
     >
       <div class="flex items-center justify-between border-b p-4">
         <h2 class="text-lg font-semibold">Settings</h2>
-        <button 
-          class="rounded-full p-1 hover:bg-muted"
-          on:click={close}
-          aria-label="Close"
-        >
+        <button class="rounded-full p-1 hover:bg-muted" on:click={close} aria-label="Close">
           <X class="h-5 w-5" />
         </button>
       </div>
-      
+
       <div class="p-4 space-y-4">
         <div class="space-y-4">
           <h3 class="text-base font-medium">Appearance</h3>
-          
+
           <div class="flex items-center justify-between rounded-md border p-3">
             <div class="flex items-center gap-3">
               {#if $theme === 'dark'}
@@ -82,7 +82,7 @@
               {$theme === 'dark' ? 'Light' : 'Dark'} Mode
             </Button>
           </div>
-          
+
           <div class="flex items-center justify-between rounded-md border p-3">
             <div class="flex items-center gap-3">
               {#if $uiState.showAvatar}
@@ -103,38 +103,43 @@
             </Button>
           </div>
         </div>
-        
+
         <div class="pt-4 border-t space-y-4">
           <h3 class="text-base font-medium">Data Management</h3>
-          
+
           <div class="flex items-center justify-between rounded-md border p-3">
             <div>
               <p class="text-sm">Current data</p>
               <p class="text-xs text-muted-foreground">
-                {$assigneeStore.assignees.length} assignees, 
+                {$assigneeStore.assignees.length} assignees,
                 {$assigneeStore.groups.length} groups
               </p>
             </div>
-            <Button variant="outline" size="sm" class="border-destructive text-destructive" on:click={clearAllData}>
+            <Button
+              variant="outline"
+              size="sm"
+              class="border-destructive text-destructive"
+              on:click={clearAllData}
+            >
               Clear All Data
             </Button>
           </div>
-          
+
           {#if $assigneeStore.lastScanTime}
             <p class="text-xs text-muted-foreground">
               Last scan: {new Date($assigneeStore.lastScanTime).toLocaleString()}
             </p>
           {/if}
         </div>
-        
+
         <div class="pt-4 border-t">
           <p class="text-xs text-muted-foreground">
             Assynaid v1.0.0 - A modern Jira assignee scanner
           </p>
           <p class="text-xs text-muted-foreground mt-1">
-            <a 
-              href="https://github.com/yourusername/assynaid" 
-              target="_blank" 
+            <a
+              href="https://github.com/yourusername/assynaid"
+              target="_blank"
               class="text-jira-tertiary hover:underline"
             >
               View on GitHub
@@ -142,11 +147,9 @@
           </p>
         </div>
       </div>
-      
+
       <div class="border-t p-4 flex justify-end">
-        <Button variant="jira" on:click={close}>
-          Close
-        </Button>
+        <Button variant="jira" on:click={close}>Close</Button>
       </div>
     </div>
   </div>

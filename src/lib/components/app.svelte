@@ -19,7 +19,7 @@
   let searchTerm = '';
   let showSettings = false;
   let scanningStatus = '';
-  
+
   onMount(async () => {
     initTheme();
     await assigneeStore.init();
@@ -34,15 +34,15 @@
 
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      
+
       if (!tab.id) {
-        throw new Error("No active tab found");
+        throw new Error('No active tab found');
       }
 
       scanningStatus = 'Looking for assignees...';
-      
+
       const response = await chrome.tabs.sendMessage(tab.id, { action: 'scanAssignees' });
-      
+
       if (response && response.assignees && response.assignees.length > 0) {
         scanningStatus = 'Processing assignees...';
         await assigneeStore.setAssignees(response.assignees);
@@ -67,14 +67,16 @@
 
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      
+
       if (!tab.id) {
-        throw new Error("No active tab found");
+        throw new Error('No active tab found');
       }
 
-      toast.success(`Applying ${$assigneeStore.selectedAssigneeIds.length} assignees to Jira board...`);
-      
-      await chrome.tabs.sendMessage(tab.id, { 
+      toast.success(
+        `Applying ${$assigneeStore.selectedAssigneeIds.length} assignees to Jira board...`
+      );
+
+      await chrome.tabs.sendMessage(tab.id, {
         action: 'applyAssigneeSelection',
         selectedAssigneeIds: $assigneeStore.selectedAssigneeIds
       });
@@ -103,76 +105,62 @@
   function handleCreateGroup() {
     $uiState.isCreatingGroup = true;
   }
-  
+
   function handleOpenSettings() {
     showSettings = true;
   }
-  
-  function handleRemoveFromGroup(event: CustomEvent<{ assignee: { id: string, name: string }, groupId: string }>) {
+
+  function handleRemoveFromGroup(
+    event: CustomEvent<{ assignee: { id: string; name: string }; groupId: string }>
+  ) {
     const { assignee, groupId } = event.detail;
-    const group = $assigneeStore.groups.find(g => g.id === groupId);
-    
+    const group = $assigneeStore.groups.find((g) => g.id === groupId);
+
     if (!group) return;
-    
+
     assigneeStore.removeAssigneeFromGroup(groupId, assignee.id);
     toast.success(`Removed ${assignee.name} from group "${group.name}"`);
   }
 </script>
 
-<div 
-  class={cn(
-    'flex h-[600px] w-[400px] flex-col',
-    $uiState.isAnimatingOut && 'container closing'
-  )}
+<div
+  class={cn('flex h-[600px] w-[400px] flex-col', $uiState.isAnimatingOut && 'container closing')}
 >
-  <Header 
-    scanning={isScanning} 
-    on:scan={scanAssignees}
-    on:openSettings={handleOpenSettings}
-  />
-  
+  <Header scanning={isScanning} on:scan={scanAssignees} on:openSettings={handleOpenSettings} />
+
   <div class="flex items-center justify-between gap-3 border-b p-3">
     <div class="flex-1">
       <SearchBar on:search={handleSearch} />
     </div>
     <ViewSelector on:change={handleViewChange} />
   </div>
-  
-  <GroupSelector 
-    on:createGroup={handleCreateGroup}
-  />
-  
+
+  <GroupSelector on:createGroup={handleCreateGroup} />
+
   <div class="flex-1 overflow-y-auto">
     {#if $uiState.isLoading}
       <LoadingState message={scanningStatus || 'Loading...'} />
     {:else}
-      <AssigneeGrid 
-        {searchTerm} 
-        loading={false}
-        on:removeFromGroup={handleRemoveFromGroup}
-      />
+      <AssigneeGrid {searchTerm} loading={false} on:removeFromGroup={handleRemoveFromGroup} />
     {/if}
   </div>
-  
-  <Footer 
-    totalCount={$assigneeStore.assignees.length} 
+
+  <Footer
+    totalCount={$assigneeStore.assignees.length}
     selectedCount={$assigneeStore.selectedAssigneeIds.length}
     on:apply={applySelection}
   />
-  
-  <CreateGroupModal 
-    show={$uiState.isCreatingGroup} 
-    on:close={() => $uiState.isCreatingGroup = false}
+
+  <CreateGroupModal
+    show={$uiState.isCreatingGroup}
+    on:close={() => ($uiState.isCreatingGroup = false)}
     on:created={(e) => {
       $uiState.currentView = 'group';
       assigneeStore.setCurrentGroup(e.detail.id);
     }}
   />
-  
-  <SettingsModal
-    show={showSettings}
-    on:close={() => showSettings = false}
-  />
-  
+
+  <SettingsModal show={showSettings} on:close={() => (showSettings = false)} />
+
   <Toaster position="top-center" closeButton />
 </div>

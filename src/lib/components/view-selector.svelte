@@ -44,7 +44,7 @@
   >
     <Grid class="h-4 w-4" />
   </button>
-  
+
   <button
     type="button"
     class={listButtonClass}
@@ -53,7 +53,7 @@
   >
     <List class="h-4 w-4" />
   </button>
-  
+
   <button
     type="button"
     class={groupButtonClass}

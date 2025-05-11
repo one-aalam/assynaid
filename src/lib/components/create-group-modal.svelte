@@ -66,7 +66,7 @@
 
   function toggleAssignee(id: string) {
     if (selectedAssigneeIds.includes(id)) {
-      selectedAssigneeIds = selectedAssigneeIds.filter(i => i !== id);
+      selectedAssigneeIds = selectedAssigneeIds.filter((i) => i !== id);
     } else {
       selectedAssigneeIds = [...selectedAssigneeIds, id];
     }
@@ -89,26 +89,22 @@
 <svelte:window on:keydown={handleKeydown} />
 
 {#if show}
-  <div 
+  <div
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
     transition:fade={{ duration: 200 }}
     on:click={handleBackdropClick}
   >
-    <div 
+    <div
       class="w-full max-w-md overflow-hidden rounded-md bg-background shadow-lg animate-slide-in"
       on:click|stopPropagation
     >
       <div class="flex items-center justify-between border-b p-4">
         <h2 class="text-lg font-semibold">Create New Group</h2>
-        <button 
-          class="rounded-full p-1 hover:bg-muted"
-          on:click={close}
-          aria-label="Close"
-        >
+        <button class="rounded-full p-1 hover:bg-muted" on:click={close} aria-label="Close">
           <X class="h-5 w-5" />
         </button>
       </div>
-      
+
       <form on:submit|preventDefault={handleSubmit} class="p-4 space-y-4">
         <div class="space-y-2">
           <label for="name" class="text-sm font-medium">
@@ -116,27 +112,27 @@
           </label>
           <Input id="name" bind:value={name} placeholder="Enter group name" />
         </div>
-        
+
         <div class="space-y-2">
           <label for="description" class="text-sm font-medium">Description</label>
-          <textarea 
-            id="description" 
-            bind:value={description} 
+          <textarea
+            id="description"
+            bind:value={description}
             placeholder="Enter description (optional)"
             class="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           ></textarea>
         </div>
-        
+
         <div class="space-y-2">
           <label for="color" class="text-sm font-medium">Color</label>
           <div class="flex items-center gap-3">
-            <input 
-              type="color" 
-              id="color" 
-              bind:value={color} 
+            <input
+              type="color"
+              id="color"
+              bind:value={color}
               class="h-10 w-16 cursor-pointer rounded border p-0"
             />
-            <div 
+            <div
               class="flex-1 rounded-md p-2 text-center text-white font-medium"
               style="background-color: {color}"
             >
@@ -144,7 +140,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="space-y-2">
           <label class="text-sm font-medium">
             Assignees <span class="text-destructive">*</span>
@@ -152,7 +148,7 @@
               ({selectedAssigneeIds.length} selected)
             </span>
           </label>
-          
+
           <div class="max-h-60 overflow-y-auto rounded-md border p-1">
             {#if $assigneeStore.assignees.length === 0}
               <div class="p-4 text-center text-muted-foreground">
@@ -160,35 +156,34 @@
               </div>
             {:else}
               {#each $assigneeStore.assignees as assignee (assignee.id)}
-                <div 
+                <div
                   class="flex items-center gap-2 rounded-sm px-2 py-1.5 hover:bg-muted cursor-pointer"
                   on:click={() => toggleAssignee(assignee.id)}
                   on:keydown={(e) => e.key === 'Enter' && toggleAssignee(assignee.id)}
                 >
-                  <input 
-                    type="checkbox" 
-                    id={`assignee-${assignee.id}`} 
-                    checked={selectedAssigneeIds.includes(assignee.id)} 
+                  <input
+                    type="checkbox"
+                    id={`assignee-${assignee.id}`}
+                    checked={selectedAssigneeIds.includes(assignee.id)}
                     class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                     on:change={() => toggleAssignee(assignee.id)}
                   />
-                  
+
                   {#if assignee.avatarUrl}
-                    <img 
-                      src={assignee.avatarUrl} 
-                      alt={assignee.name} 
+                    <img
+                      src={assignee.avatarUrl}
+                      alt={assignee.name}
                       class="h-6 w-6 rounded-full object-cover"
                     />
                   {:else}
-                    <div class="flex h-6 w-6 items-center justify-center rounded-full bg-jira-primary text-white text-xs">
+                    <div
+                      class="flex h-6 w-6 items-center justify-center rounded-full bg-jira-primary text-white text-xs"
+                    >
                       {assignee.name.substring(0, 2).toUpperCase()}
                     </div>
                   {/if}
-                  
-                  <label 
-                    for={`assignee-${assignee.id}`} 
-                    class="flex-1 cursor-pointer text-sm"
-                  >
+
+                  <label for={`assignee-${assignee.id}`} class="flex-1 cursor-pointer text-sm">
                     {assignee.name}
                   </label>
                 </div>
@@ -196,14 +191,10 @@
             {/if}
           </div>
         </div>
-        
+
         <div class="flex justify-end gap-2 pt-2">
-          <Button variant="outline" type="button" on:click={close}>
-            Cancel
-          </Button>
-          <Button variant="jira" type="submit">
-            Create Group
-          </Button>
+          <Button variant="outline" type="button" on:click={close}>Cancel</Button>
+          <Button variant="jira" type="submit">Create Group</Button>
         </div>
       </form>
     </div>

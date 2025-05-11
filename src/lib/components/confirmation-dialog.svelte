@@ -42,12 +42,12 @@
 <svelte:window on:keydown={handleKeydown} />
 
 {#if show}
-  <div 
+  <div
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
     transition:fade={{ duration: 200 }}
     on:click={handleBackdropClick}
   >
-    <div 
+    <div
       class="w-full max-w-sm overflow-hidden rounded-md bg-background shadow-lg"
       on:click|stopPropagation
       transition:fade={{ duration: 150 }}
@@ -59,23 +59,19 @@
               <AlertTriangle class="h-5 w-5 text-destructive" />
             </div>
           {/if}
-          
+
           <div class="flex-1">
             <h3 class="text-lg font-medium">{title}</h3>
             <p class="mt-1 text-sm text-muted-foreground">{message}</p>
           </div>
         </div>
       </div>
-      
+
       <div class="flex items-center justify-end gap-2 border-t p-3 bg-muted/20">
         <Button variant="outline" type="button" on:click={cancel}>
           {cancelText}
         </Button>
-        <Button 
-          variant={destructive ? "destructive" : "default"} 
-          type="button" 
-          on:click={confirm}
-        >
+        <Button variant={destructive ? 'destructive' : 'default'} type="button" on:click={confirm}>
           {confirmText}
         </Button>
       </div>

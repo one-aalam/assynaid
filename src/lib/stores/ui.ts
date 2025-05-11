@@ -30,7 +30,7 @@ theme.subscribe((value) => {
   if (typeof chrome !== 'undefined' && chrome.storage) {
     chrome.storage.local.set({ theme: value });
   }
-  
+
   // Apply theme to document
   if (value === 'dark') {
     document.documentElement.classList.add('dark');

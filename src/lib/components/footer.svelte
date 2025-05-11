@@ -19,46 +19,43 @@
       toast.error('Please select at least one assignee');
       return;
     }
-    
+
     $uiState.isAnimatingOut = true;
     dispatch('apply');
   }
 
   function copyToClipboard() {
-    const assigneesToCopy = $assigneeStore.selectedAssigneeIds.length > 0
-      ? $assigneeStore.assignees.filter(a => $assigneeStore.selectedAssigneeIds.includes(a.id))
-      : $filteredAssignees;
-    
-    const text = assigneesToCopy.map(a => a.name).join('\n');
+    const assigneesToCopy =
+      $assigneeStore.selectedAssigneeIds.length > 0
+        ? $assigneeStore.assignees.filter((a) => $assigneeStore.selectedAssigneeIds.includes(a.id))
+        : $filteredAssignees;
+
+    const text = assigneesToCopy.map((a) => a.name).join('\n');
     navigator.clipboard.writeText(text);
     toast.success('Copied to clipboard!');
   }
 
   function exportToCsv() {
-    const assigneesToExport = $assigneeStore.selectedAssigneeIds.length > 0
-      ? $assigneeStore.assignees.filter(a => $assigneeStore.selectedAssigneeIds.includes(a.id))
-      : $filteredAssignees;
-    
+    const assigneesToExport =
+      $assigneeStore.selectedAssigneeIds.length > 0
+        ? $assigneeStore.assignees.filter((a) => $assigneeStore.selectedAssigneeIds.includes(a.id))
+        : $filteredAssignees;
+
     const headers = ['Name', 'Avatar URL', 'Role', 'Groups'];
-    const rows = assigneesToExport.map(assignee => {
+    const rows = assigneesToExport.map((assignee) => {
       const groups = $assigneeStore.groups
-        .filter(g => g.assigneeIds.includes(assignee.id))
-        .map(g => g.name)
+        .filter((g) => g.assigneeIds.includes(assignee.id))
+        .map((g) => g.name)
         .join('; ');
-      
-      return [
-        assignee.name,
-        assignee.avatarUrl || '',
-        assignee.role || '',
-        groups
-      ];
+
+      return [assignee.name, assignee.avatarUrl || '', assignee.role || '', groups];
     });
-    
+
     const csvContent = [
       headers.join(','),
-      ...rows.map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(','))
+      ...rows.map((row) => row.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(','))
     ].join('\n');
-    
+
     downloadCSV(csvContent, 'jira_assignees.csv');
     toast.success('CSV exported!');
   }
@@ -71,28 +68,18 @@
       <span class="ml-1 text-jira-tertiary">({selectedCount} selected)</span>
     {/if}
   </div>
-  
+
   <div class="flex items-center gap-2">
-    <Button
-      variant="outline"
-      size="sm"
-      on:click={copyToClipboard}
-      title="Copy names to clipboard"
-    >
+    <Button variant="outline" size="sm" on:click={copyToClipboard} title="Copy names to clipboard">
       <Copy class="mr-1 h-3.5 w-3.5" />
       Copy
     </Button>
-    
-    <Button
-      variant="outline"
-      size="sm"
-      on:click={exportToCsv}
-      title="Export to CSV"
-    >
+
+    <Button variant="outline" size="sm" on:click={exportToCsv} title="Export to CSV">
       <FileDown class="mr-1 h-3.5 w-3.5" />
       Export
     </Button>
-    
+
     <Button
       variant="success"
       size="sm"

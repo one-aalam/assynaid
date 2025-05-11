@@ -21,9 +21,10 @@
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       shownAssignees = $filteredAssignees.filter(
-        a => a.name.toLowerCase().includes(term) ||
-             (a.role && a.role.toLowerCase().includes(term)) ||
-             (a.department && a.department.toLowerCase().includes(term))
+        (a) =>
+          a.name.toLowerCase().includes(term) ||
+          (a.role && a.role.toLowerCase().includes(term)) ||
+          (a.department && a.department.toLowerCase().includes(term))
       );
     } else {
       shownAssignees = $filteredAssignees;
@@ -32,11 +33,9 @@
 
   $: containerClass = cn(
     'grid gap-3 auto-rows-max overflow-y-auto p-4',
-    $uiState.currentView === 'grid' 
-      ? 'grid-cols-2 sm:grid-cols-3' 
-      : 'grid-cols-1'
+    $uiState.currentView === 'grid' ? 'grid-cols-2 sm:grid-cols-3' : 'grid-cols-1'
   );
-  
+
   function handleRemoveFromGroup(event: CustomEvent<{ assignee: Assignee; groupId: string }>) {
     dispatch('removeFromGroup', event.detail);
   }
@@ -47,13 +46,9 @@
 {:else}
   <div class={containerClass}>
     {#each shownAssignees as assignee (assignee.id)}
-      <AssigneeCard 
-        {assignee} 
-        showGroups={true}
-        on:removeFromGroup={handleRemoveFromGroup}
-      />
+      <AssigneeCard {assignee} showGroups={true} on:removeFromGroup={handleRemoveFromGroup} />
     {/each}
-    
+
     {#if shownAssignees.length === 0}
       <div class="col-span-full flex h-32 items-center justify-center text-center">
         {#if searchTerm}
@@ -65,9 +60,7 @@
             No assignees available. Press the "Scan Now" button to scan the Jira board.
           </p>
         {:else}
-          <p class="text-muted-foreground">
-            No assignees in the selected group.
-          </p>
+          <p class="text-muted-foreground">No assignees in the selected group.</p>
         {/if}
       </div>
     {/if}

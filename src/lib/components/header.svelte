@@ -15,7 +15,7 @@
   function handleScan() {
     dispatch('scan');
   }
-  
+
   function openSettings() {
     dispatch('openSettings');
   }
@@ -26,7 +26,7 @@
     <img src="../assets/images/logo.svg" alt="Assynaid Logo" class="h-8 w-8" />
     <h1 class="text-xl font-semibold text-jira-primary">Assynaid</h1>
   </div>
-  
+
   <div class="flex items-center gap-2">
     <Button
       variant="ghost"
@@ -41,7 +41,7 @@
         <MoonIcon class="h-4 w-4" />
       {/if}
     </Button>
-    
+
     <Button
       variant="ghost"
       size="icon"
@@ -51,7 +51,7 @@
     >
       <Settings class="h-4 w-4" />
     </Button>
-    
+
     <Button
       variant="jira"
       size="sm"

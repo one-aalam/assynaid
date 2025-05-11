@@ -24,7 +24,7 @@ export function debounce<F extends (...args: any[]) => any>(func: F, waitFor: nu
     if (timeout !== null) {
       clearTimeout(timeout);
     }
-    return new Promise<ReturnType<F>>(resolve => {
+    return new Promise<ReturnType<F>>((resolve) => {
       timeout = setTimeout(() => resolve(func(...args)), waitFor);
     });
   };
@@ -32,10 +32,10 @@ export function debounce<F extends (...args: any[]) => any>(func: F, waitFor: nu
 
 export function getInitials(name: string): string {
   if (!name) return '??';
-  
+
   const parts = name.split(/\s+/);
   if (parts.length === 1) return name.substring(0, 2).toUpperCase();
-  
+
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 

@@ -29,7 +29,7 @@
   <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
     <Search class="h-4 w-4 text-muted-foreground" />
   </div>
-  
+
   <input
     type="text"
     placeholder="Search assignees..."
@@ -37,7 +37,7 @@
     value={$uiState.searchTerm}
     on:input={handleInput}
   />
-  
+
   {#if $uiState.searchTerm}
     <button
       type="button"

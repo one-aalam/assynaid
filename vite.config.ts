@@ -14,27 +14,27 @@ export default defineConfig({
       writeBundle() {
         // Copy manifest.json to dist
         fs.copyFileSync('src/manifest.json', 'dist/manifest.json');
-        
+
         // Copy welcome/welcome.html to dist/welcome/welcome.html
         if (!fs.existsSync('dist/welcome')) {
           fs.mkdirSync('dist/welcome', { recursive: true });
         }
         fs.copyFileSync('src/welcome/welcome.html', 'dist/welcome/welcome.html');
-        
+
         // Create assets directory if it doesn't exist
         if (!fs.existsSync('dist/assets/images')) {
           fs.mkdirSync('dist/assets/images', { recursive: true });
         }
-        
+
         // Copy logo.svg to dist/assets/images
         fs.copyFileSync('src/assets/images/logo.svg', 'dist/assets/images/logo.svg');
-        
+
         // Create placeholder icons
         fs.copyFileSync('src/assets/images/logo.svg', 'dist/assets/images/icon-16.png');
         fs.copyFileSync('src/assets/images/logo.svg', 'dist/assets/images/icon-32.png');
         fs.copyFileSync('src/assets/images/logo.svg', 'dist/assets/images/icon-48.png');
         fs.copyFileSync('src/assets/images/logo.svg', 'dist/assets/images/icon-128.png');
-        
+
         console.log('Manifest and assets copied to dist directory');
       }
     }
