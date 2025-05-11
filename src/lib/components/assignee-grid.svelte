@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import AssigneeCard from './assignee-card.svelte';
   import { filteredAssignees } from '$lib/stores/assignees';
   import { uiState } from '$lib/stores/ui';
@@ -8,6 +9,10 @@
 
   export let searchTerm = '';
   export let loading = false;
+
+  const dispatch = createEventDispatcher<{
+    removeFromGroup: { assignee: Assignee; groupId: string };
+  }>();
 
   let shownAssignees: Assignee[] = [];
 
@@ -31,6 +36,10 @@
       ? 'grid-cols-2 sm:grid-cols-3' 
       : 'grid-cols-1'
   );
+  
+  function handleRemoveFromGroup(event: CustomEvent<{ assignee: Assignee; groupId: string }>) {
+    dispatch('removeFromGroup', event.detail);
+  }
 </script>
 
 {#if loading}
@@ -38,7 +47,11 @@
 {:else}
   <div class={containerClass}>
     {#each shownAssignees as assignee (assignee.id)}
-      <AssigneeCard {assignee} showGroups={true} />
+      <AssigneeCard 
+        {assignee} 
+        showGroups={true}
+        on:removeFromGroup={handleRemoveFromGroup}
+      />
     {/each}
     
     {#if shownAssignees.length === 0}

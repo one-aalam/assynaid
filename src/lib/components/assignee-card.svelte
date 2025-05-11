@@ -2,26 +2,47 @@
   import { assigneeStore, getGroupsForAssignee, isAssigneeSelected } from '$lib/stores/assignees';
   import { uiState } from '$lib/stores/ui';
   import { cn, getInitials } from '$lib/utils';
-  import type { Assignee } from '$lib/models/assignee';
+  import type { Assignee, AssigneeGroup } from '$lib/models/assignee';
   import GroupBadge from './group-badge.svelte';
   import { createEventDispatcher } from 'svelte';
+  import { X } from 'lucide-svelte';
+  import { toast } from 'svelte-sonner';
 
   export let assignee: Assignee;
   export let showGroups = true;
 
   const dispatch = createEventDispatcher<{
     select: { assignee: Assignee };
+    removeFromGroup: { assignee: Assignee, groupId: string };
   }>();
 
   let selected = false;
   $: selected = $isAssigneeSelected(assignee.id);
 
-  let groups = [];
+  let groups: AssigneeGroup[] = [];
   $: groups = $getGroupsForAssignee(assignee.id);
 
   function handleSelect() {
     dispatch('select', { assignee });
     assigneeStore.toggleSelection(assignee.id);
+  }
+  
+  function removeFromGroup(groupId: string, event: MouseEvent) {
+    // Stop propagation to prevent selecting the assignee when removing from group
+    event.stopPropagation();
+    
+    // Get group name for the toast message
+    const group = $assigneeStore.groups.find(g => g.id === groupId);
+    if (!group) return;
+    
+    // Remove the assignee from the group
+    assigneeStore.removeAssigneeFromGroup(groupId, assignee.id);
+    
+    // Dispatch the event
+    dispatch('removeFromGroup', { assignee, groupId });
+    
+    // Show a toast notification
+    toast.success(`Removed ${assignee.name} from group "${group.name}"`);
   }
 
   $: cardClasses = cn(
@@ -91,7 +112,18 @@
     {#if showGroups && groups.length > 0 && ($uiState.currentView === 'list' || $uiState.currentView === 'group')}
       <div class="flex flex-wrap gap-1">
         {#each groups as group (group.id)}
-          <GroupBadge {group} />
+          <div class="flex items-center group">
+            <GroupBadge {group} />
+            
+            <!-- Remove from group button -->
+            <button 
+              class="ml-0.5 -mr-0.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-muted/80 transition-opacity"
+              title={`Remove from ${group.name}`}
+              on:click={(e) => removeFromGroup(group.id, e)}
+            >
+              <X class="h-3 w-3 text-white" />
+            </button>
+          </div>
         {/each}
       </div>
     {/if}

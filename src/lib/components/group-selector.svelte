@@ -4,11 +4,18 @@
   import Button from './ui/button.svelte';
   import GroupBadge from './group-badge.svelte';
   import { createEventDispatcher } from 'svelte';
-  import { PlusCircle } from 'lucide-svelte';
+  import { PlusCircle, Trash2 } from 'lucide-svelte';
+  import { toast } from 'svelte-sonner';
+  import ConfirmationDialog from './confirmation-dialog.svelte';
 
   const dispatch = createEventDispatcher<{
     createGroup: void;
+    editGroup: { groupId: string };
   }>();
+
+  // State for delete confirmation
+  let showDeleteConfirmation = false;
+  let groupToDelete: { id: string; name: string } | null = null;
 
   function handleGroupChange(event: Event) {
     const select = event.target as HTMLSelectElement;
@@ -17,6 +24,23 @@
 
   function handleCreateGroup() {
     dispatch('createGroup');
+  }
+  
+  function handleEditGroup(groupId: string) {
+    dispatch('editGroup', { groupId });
+  }
+  
+  function openDeleteConfirmation(groupId: string, groupName: string) {
+    groupToDelete = { id: groupId, name: groupName };
+    showDeleteConfirmation = true;
+  }
+  
+  function handleDeleteGroup() {
+    if (!groupToDelete) return;
+    
+    assigneeStore.removeGroup(groupToDelete.id);
+    toast.success(`Group "${groupToDelete.name}" deleted`);
+    groupToDelete = null;
   }
 </script>
 
@@ -60,16 +84,37 @@
     </Button>
 
     {#each $assigneeStore.groups as group (group.id)}
-      <button
-        class="flex items-center"
-        on:click={() => assigneeStore.setCurrentGroup(group.id)}
-      >
-        <GroupBadge 
-          {group} 
-          showCount={true} 
-          size="sm"
-        />
-      </button>
+      <div class="flex items-center">
+        <button
+          class="flex items-center group"
+          on:click={() => assigneeStore.setCurrentGroup(group.id)}
+        >
+          <GroupBadge 
+            {group} 
+            showCount={true} 
+            size="sm"
+          />
+        </button>
+        
+        <button 
+          class="ml-1 p-1 rounded-full opacity-60 hover:opacity-100 hover:bg-muted"
+          title="Delete group"
+          on:click={() => openDeleteConfirmation(group.id, group.name)}
+        >
+          <Trash2 class="h-3 w-3 text-destructive" />
+        </button>
+      </div>
     {/each}
   </div>
 {/if}
+
+<!-- Delete Confirmation Dialog -->
+<ConfirmationDialog
+  bind:show={showDeleteConfirmation}
+  title="Delete Group"
+  message={groupToDelete ? `Are you sure you want to delete the group "${groupToDelete.name}"? This action cannot be undone.` : ''}
+  confirmText="Delete"
+  cancelText="Cancel"
+  destructive={true}
+  on:confirm={handleDeleteGroup}
+/>

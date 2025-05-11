@@ -19,7 +19,7 @@
   let searchTerm = '';
   let showSettings = false;
   let scanningStatus = '';
-
+  
   onMount(async () => {
     initTheme();
     await assigneeStore.init();
@@ -107,6 +107,16 @@
   function handleOpenSettings() {
     showSettings = true;
   }
+  
+  function handleRemoveFromGroup(event: CustomEvent<{ assignee: { id: string, name: string }, groupId: string }>) {
+    const { assignee, groupId } = event.detail;
+    const group = $assigneeStore.groups.find(g => g.id === groupId);
+    
+    if (!group) return;
+    
+    assigneeStore.removeAssigneeFromGroup(groupId, assignee.id);
+    toast.success(`Removed ${assignee.name} from group "${group.name}"`);
+  }
 </script>
 
 <div 
@@ -128,13 +138,19 @@
     <ViewSelector on:change={handleViewChange} />
   </div>
   
-  <GroupSelector on:createGroup={handleCreateGroup} />
+  <GroupSelector 
+    on:createGroup={handleCreateGroup}
+  />
   
   <div class="flex-1 overflow-y-auto">
     {#if $uiState.isLoading}
       <LoadingState message={scanningStatus || 'Loading...'} />
     {:else}
-      <AssigneeGrid {searchTerm} loading={false} />
+      <AssigneeGrid 
+        {searchTerm} 
+        loading={false}
+        on:removeFromGroup={handleRemoveFromGroup}
+      />
     {/if}
   </div>
   

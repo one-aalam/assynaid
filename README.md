@@ -2,7 +2,7 @@
 
 A beautiful Chrome extension that scans and manages Jira board assignees with a modern UI and powerful features.
 
-![Assynaid Screenshot](src/assets/images/screenshot.png)
+![Assynaid Screenshot](src/assets/images/screenshot.svg)
 
 ## Features
 
@@ -10,7 +10,7 @@ A beautiful Chrome extension that scans and manages Jira board assignees with a 
 - **Scan Assignees**: Quickly extract all assignees from a Jira board with one click
 - **Multiple Views**: Switch between grid, list, and group views
 - **Assignee Selection**: Select assignees in the extension and apply to Jira board
-- **Group Management**: Create and manage custom groups of assignees
+- **Group Management**: Create, edit and delete custom groups of assignees
 - **Search**: Easily filter assignees by name or role
 - **Dark Mode**: Toggle between light and dark themes
 - **Export Options**: Copy to clipboard or export to CSV
