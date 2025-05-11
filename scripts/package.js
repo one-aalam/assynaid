@@ -3,6 +3,7 @@
  * This script handles the complete packaging process for distribution
  */
 import { promises as fs } from 'fs';
+import { createWriteStream } from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 import archiver from 'archiver';
@@ -140,7 +141,7 @@ async function createZipPackage() {
 
   return new Promise((resolve, reject) => {
     // Create a file to stream archive data to
-    const output = fs.createWriteStream(zipPath);
+    const output = createWriteStream(zipPath);
     const archive = archiver('zip', {
       zlib: { level: 9 } // Maximum compression
     });
